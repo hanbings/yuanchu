@@ -1,58 +1,28 @@
-fn run(code: String, _input: String) -> Unit {
-    let tape = Array::make(30000, 0)
-    let mut ptr = 0;
-    let mut pc = 0;
-
-    let code = code.to_array()
-    while pc < code.length() {
-        match code[pc] {
-            '>' => ptr += 1
-            '<' => ptr -= 1
-            '+' => tape[ptr] = tape[ptr] + 1
-            '-' => tape[ptr] = tape[ptr] - 1
-            '.' => {
-                let output = tape[ptr]
-                if output < 0 {
-                    println("FINISHED")
-                } else {
-                    println({Char::from_int(tape[ptr])})
-                }
-            }
-            '[' => {
-                if tape[ptr] == 0 {
-                    let mut loop_level = 1
-                    while loop_level > 0 {
-                        pc += 1;
-                        match code[pc] {
-                            '[' => loop_level += 1
-                            ']' => loop_level -= 1
-                            _ => ()
-                        }
-                    }
-                }
-            }
-            ']' => {
-                if tape[ptr] != 0 {
-                    let mut loop_level = 1;
-                    while loop_level > 0 {
-                        pc -= 1
-                        match code[pc] {
-                            ']' => loop_level += 1
-                            '[' => loop_level -= 1
-                            _ => ()
-                        }
-                    }
-                }
-            }
-            _ => ()
-        }
-        pc += 1;
-    }
-}
-
+///|
 fn main {
-    let code = "++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.>.";
-    let input = "";
-    let _ = run(code, input);
+  let code =
+    #| ++++++++++             # cell[0] = 10
+    #| [                      # loop 10 times
+    #|   >+++++++             # cell[1] += 7 * 10 = 70
+    #|   >++++++++++          # cell[2] += 10 * 10 = 100
+    #|   >+++                 # cell[3] += 3 * 10 = 30
+    #|   >+                   # cell[4] += 1 * 10 = 10
+    #|   <<<<-                # back to cell[0], decrement
+    #| ]
+    #| >++.                   # print 'H' (cell[1] = 72)
+    #| >+.                    # print 'e' (cell[2] = 101)
+    #| +++++++.               # print 'l' (cell[2] = 108)
+    #| .                      # print 'l'
+    #| +++.                   # print 'o' (111)
+    #| >++.                   # print ' ' (cell[3] = 32)
+    #| <<+++++++++++++++.     # print 'W' (cell[1] = 87)
+    #| >.                     # print 'o' (cell[2] = 111)
+    #| +++.                   # print 'r' (114)
+    #| ------.                # print 'l' (108)
+    #| --------.              # print 'd' (100)
+    #| >+.                    # print '!' (cell[3] = 33)
+    #| >.                     # print newline (cell[4] = 10)
+  let token = @lib.lex(code)
+  let ast = @lib.parse(token)
+  @lib.run(ast)
 }
- 
