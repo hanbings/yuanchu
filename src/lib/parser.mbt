@@ -1,25 +1,25 @@
 ///|
 pub fn parse(tokens : Array[Token]) -> Array[AstNode] {
-  let (loop_nodes, _result) = parse_loop(tokens, 0)
+  let count: Ref[Int] = { val: 0 }
+  let loop_nodes = parse_loop(tokens, count)
   loop_nodes
 }
 
 ///|
-fn parse_loop(tokens : Array[Token], count : Int) -> (Array[AstNode], Int) {
-  let mut count = count
+fn parse_loop(tokens : Array[Token], count : Ref[Int]) -> Array[AstNode] {
   let nodes = Array::new()
-  while count < tokens.length() {
-    let token = tokens[count]
+  while count.val < tokens.length() {
+    let token = tokens[count.val]
     match token {
       Token::LoopStart => {
-        let (loop_nodes, result) = parse_loop(tokens, count + 1)
-        count = result
+        count.val += 1
+        let loop_nodes = parse_loop(tokens, count)
         nodes.push(AstNode::Loop(loop_nodes))
       }
       Token::LoopEnd => break
       _ => nodes.push(AstNode::Command(token))
     }
-    count += 1
+    count.val += 1
   }
-  (nodes, count)
+  nodes
 }
