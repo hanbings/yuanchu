@@ -16,7 +16,7 @@
 > 
 > 您可以从 https://www.rust-lang.org/learn/get-started 查看如何安装 Rust 工具链，以及在 https://www.moonbitlang.cn/download 查看如何安装 Moonbit 工具链
 
-> [!WARN]
+> [!TIP]
 > 默认使用 Linux 发行版作为开发环境。
 
 ```bash
@@ -25,9 +25,11 @@ $ git clone git@github.com:hanbings/yuanchu.git
 # 构建 rust stub 包，它将是一个动态链接库供 moonbit 调用
 $ cd stub
 $ cargo build
-# 使用下面的指令查看是否构建成功，sha 可能会有所区别，但它至少是一个 elf 文件
+# 使用下面的指令查看是否构建成功，sha 值可能会有所区别，但它至少是一个 elf 文件
 $ file target/debug/libyuanchu_stub.so 
-target/debug/libyuanchu_stub.so: ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, BuildID[sha1]=de9d3e8220d1e53f6371bfb8394aeb4cd3e02ad5, with debug_info, not stripped
+target/debug/libyuanchu_stub.so: ELF 64-bit LSB shared object, x86-64
+version 1 (SYSV), dynamically linked, BuildID[sha1]=de9d3e8220d1e53f6371bfb8394aeb4cd3e02ad5
+with debug_info, not stripped
 
 # 回到代码根目录
 $ cd ..
