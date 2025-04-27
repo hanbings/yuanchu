@@ -1,6 +1,6 @@
 ///|
 pub fn parse(tokens : Array[Token]) -> Array[AstNode] {
-  let count: Ref[Int] = { val: 0 }
+  let count : Ref[Int] = { val: 0 }
   let loop_nodes = parse_loop(tokens, count)
   loop_nodes
 }

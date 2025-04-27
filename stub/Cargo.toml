@@ -1,0 +1,11 @@
+[package]
+name = "stub"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+name = "yuanchu_stub"
+crate-type = ["cdylib"]
+
+[dependencies]
+termion = "4.0.5"

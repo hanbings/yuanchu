@@ -2,5 +2,13 @@
   "is-main": true,
   "import": [
     "hanbings/yuanchu/lib"
-  ]
+  ],
+  "link": {
+    "native": {
+      "cc-link-flags": "-L/home/hanbings/github/yuanchu/stub/target/debug -lyuanchu_stub"
+    }
+  },
+  "targets": {
+    "src/main/main.mbt": ["native"]
+  }
 }

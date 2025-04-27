@@ -1,6 +1,9 @@
+///| In the future it should be moved out of lib and passed to the caller as a callback to be compatible with multiple backends.
+extern "C" fn wait_input() -> UInt = "wait_input"
+
 ///|
 pub struct State {
-  tape : Array[Int]
+  tape : Array[UInt]
   output_buffer : @buffer.Buffer
   mut ptr : Int
 }
@@ -24,7 +27,7 @@ fn execute(ast : Array[AstNode], state : State) -> Unit {
       AstNode::Command(Token::IncData) => state.tape[state.ptr] += 1
       AstNode::Command(Token::DecData) => state.tape[state.ptr] -= 1
       AstNode::Command(Token::Output) => {
-        let output_char = Char::from_int(state.tape[state.ptr])
+        let output_char = Char::from_int(state.tape[state.ptr].to_int())
         if output_char == '\n' {
           println(state.output_buffer)
           state.output_buffer.reset()
@@ -32,7 +35,7 @@ fn execute(ast : Array[AstNode], state : State) -> Unit {
         }
         state.output_buffer.write_char(output_char)
       }
-      AstNode::Command(Token::Input) => println("Input: Not Supported Yet")
+      AstNode::Command(Token::Input) => state.tape[state.ptr] = wait_input()
       AstNode::Loop(loop_body) =>
         while state.tape[state.ptr] != 0 {
           execute(loop_body, state)

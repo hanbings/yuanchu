@@ -3,7 +3,11 @@ pub fn lex(source : String) -> Array[Token] {
   source
   .split("\n")
   .map(fn(line) {
-    line.trim(" ").split("#").nth(0).map_or("", fn(line) { line.trim(" ") })
+    line
+    .trim(" ")
+    .split("#")
+    .nth(0)
+    .map_or("", fn(line) { line.trim(" ").to_string() })
   })
   .flat_map(fn(line) { line.split("") })
   .map(fn(char) {
@@ -17,7 +21,7 @@ pub fn lex(source : String) -> Array[Token] {
       "[" => Token::LoopStart
       "]" => Token::LoopEnd
       _ => {
-        println("Unknown token: " + char)
+        println("Unknown token: " + char.to_string())
         panic()
       }
     }
