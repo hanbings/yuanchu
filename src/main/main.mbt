@@ -25,4 +25,7 @@ fn main {
   let token = @lib.lex(code)
   let ast = @lib.parse(token)
   @lib.run(ast)
+  let code = @lib.compile(ast)
+  let _ = @lib.run_asm(code, code.length().to_uint64())
+
 }

@@ -1,6 +1,3 @@
-///| In the future it should be moved out of lib and passed to the caller as a callback to be compatible with multiple backends.
-extern "C" fn wait_input() -> UInt = "wait_input"
-
 ///|
 pub struct State {
   tape : Array[UInt]

@@ -8,7 +8,5 @@
       "cc-link-flags": "-L/home/hanbings/github/yuanchu/stub/target/debug -lyuanchu_stub"
     }
   },
-  "targets": {
-    "src/main/main.mbt": ["native"]
-  }
+  "targets": {}
 }
