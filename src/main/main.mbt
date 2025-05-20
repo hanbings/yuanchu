@@ -22,10 +22,16 @@ fn main {
     #| --------.              # print 'd' (100)
     #| >+.                    # print '!' (cell[3] = 33)
     #| >.                     # print newline (cell[4] = 10)
+
+  // run interpreter
   let token = @lib.lex(code)
   let ast = @lib.parse(token)
   @lib.run(ast)
-  let code = @lib.compile(ast)
-  let _ = @lib.run_asm(code, code.length().to_uint64())
 
+  // jit
+  let token = @lib.lex(code)
+  let ast = @lib.parse(token)
+  let machine_code = @lib.compile(ast)
+  let result = @lib.run_asm(machine_code, machine_code.length().to_uint64())
+  println(result)
 }

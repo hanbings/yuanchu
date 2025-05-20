@@ -53,8 +53,9 @@ extern "C" fn run_asm(code: *const u8, size: u64) -> u64 {
             panic!("mprotect failed");
         }
 
-        let func: extern "C" fn() -> u64 = transmute(addr);
-        let result = func();
+        let mut cells = vec![0u8; 30000];
+        let func: extern "C" fn(cells: *mut u8) -> u64 = transmute(addr);
+        let result = func(cells.as_mut_ptr());
 
         munmap(addr, size);
 
