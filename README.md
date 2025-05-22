@@ -38,4 +38,11 @@ $ moon build --target native
 # 然后运行它！
 $ LD_LIBRARY_PATH=stub/target/debug target/native/release/build/main/main.exe
 Hello World!
+
+# 以 JIT 方式运行
+$ LD_LIBRARY_PATH=stub/target/debug target/native/release/build/main/main.exe --jit
 ```
+
+## 实现
+
+[用 MoonBit 写了个带有 JIT 的 Brainfuck 解释器](./moonbit-brainfuck.md)

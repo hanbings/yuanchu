@@ -19,6 +19,25 @@ pub extern "C" fn wait_input() -> u32 {
     0
 }
 
+#[unsafe(no_mangle)]
+pub extern "C" fn wait_inputs() -> u32 {
+    let stdin = stdin();
+    let mut stdin = stdin.lock();
+
+    if let Ok(Some(inputs)) = stdin.read_line() {
+        match inputs.as_str() {
+            "step" => return 1,
+            "continue" => return 2,
+            "exit" => return 3,
+            "reset" => return 4,
+            "help" => return 5,
+            _ => {}
+        }   
+    }
+    
+    0
+}
+
 /// This interface is reserved for JIT optimization.
 /// It accepts the machine code in the form of bytes passed from
 /// the calling side and places it in the memory to execute it as a function call.

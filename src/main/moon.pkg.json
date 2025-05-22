@@ -2,7 +2,7 @@
   "is-main": true,
   "import": [
     "hanbings/yuanchu/lib",
-    "moonbitlang/x/benchmark"
+    "moonbitlang/x/sys"
   ],
   "link": {
     "native": {
