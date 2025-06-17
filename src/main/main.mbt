@@ -4,13 +4,11 @@ fn main {
 
   // check arguments
   let help = args.contains("--help")
-  let step = args.contains("--step")
-  let jit = args.contains("--jit")
   let file = {
     let mut file = None
     args.eachi(fn(i, arg) {
       if arg == "--file" {
-        if i > i + 1 {
+        if args.length() >= i + 1 {
           file = Some(args[i + 1])
         } else {
           println("Error: --file option requires a file name")
@@ -20,7 +18,10 @@ fn main {
     })
     file
   }
+  let step = args.contains("--step")
+  let jit = args.contains("--jit")
 
+  // execute the corresponding parameters.
   if help {
     println("Usage: mbt [options] [file]")
     println("Options:")
@@ -31,45 +32,46 @@ fn main {
     return
   }
 
-  // if file is empty, run the hello world program
-  if file.is_empty() {
-    let code =
-      #| ++++++++++             # cell[0] = 10
-      #| [                      # loop 10 times
-      #|   >+++++++             # cell[1] += 7 * 10 = 70
-      #|   >++++++++++          # cell[2] += 10 * 10 = 100
-      #|   >+++                 # cell[3] += 3 * 10 = 30
-      #|   >+                   # cell[4] += 1 * 10 = 10
-      #|   <<<<-                # back to cell[0], decrement
-      #| ]
-      #| >++.                   # print 'H' (cell[1] = 72)
-      #| >+.                    # print 'e' (cell[2] = 101)
-      #| +++++++.               # print 'l' (cell[2] = 108)
-      #| .                      # print 'l'
-      #| +++.                   # print 'o' (111)
-      #| >++.                   # print ' ' (cell[3] = 32)
-      #| <<+++++++++++++++.     # print 'W' (cell[1] = 87)
-      #| >.                     # print 'o' (cell[2] = 111)
-      #| +++.                   # print 'r' (114)
-      #| ------.                # print 'l' (108)
-      #| --------.              # print 'd' (100)
-      #| >+.                    # print '!' (cell[3] = 33)
-      #| >.                     # print newline (cell[4] = 10)
-    let token = @lib.lex(code)
-    let ast = @lib.parse(token)
-
-    // check if the code is valid and run it step by step
-    if step { }
-
-    // run the code
-    if jit {
-      // jit
-      let machine_code = @lib.compile(ast)
-      let result = @lib.run_asm(machine_code, machine_code.length().to_uint64())
-      println(result)
-    } else {
-      // run interpreter
-      @lib.run(ast)
+  // verify the source code file path.
+  let file_path = match file {
+    Some(file) => file
+    None => {
+      println(
+        "Error: requires a file to be passed in using the --file option to execute.",
+      )
+      return
     }
   }
+
+  // parse code into tokens and convert it to ast
+  let code = try {
+    @fs.read_file_to_string!(file_path)
+  } catch {
+    _ => return
+  }
+  let token = @lib.lex(code)
+  let ast = @lib.parse(token)
+
+  // check if the code is valid and run it step by step.
+  if step {
+    for {
+      let res = @lib.wait_inputs()
+      println(res)
+      if res == 3 {
+        break
+      }
+    }
+    return
+  }
+
+  // running code as JIT.
+  if jit {
+    let machine_code = @lib.compile(ast)
+    let result = @lib.run_asm(machine_code, machine_code.length().to_uint64())
+    println(result)
+    return
+  }
+
+  // running code as an interpreter.
+  @lib.run(ast)
 }
