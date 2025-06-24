@@ -20,6 +20,7 @@ pub fn lex(source : String) -> Array[Token] {
       "," => Token::Input
       "[" => Token::LoopStart
       "]" => Token::LoopEnd
+      "!" => Token::Debug
       _ => {
         println("Unknown token: " + char.to_string())
         panic()

@@ -1,11 +1,4 @@
 ///|
-pub struct State {
-  tape : Array[UInt]
-  output_buffer : @buffer.Buffer
-  mut ptr : Int
-}
-
-///|
 pub fn run(ast : Array[AstNode]) -> Unit {
   let state = State::{
     tape: Array::make(30000, 0),

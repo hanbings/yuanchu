@@ -17,6 +17,7 @@ fn parse_loop(tokens : Array[Token], count : Ref[Int]) -> Array[AstNode] {
         nodes.push(AstNode::Loop(loop_nodes))
       }
       Token::LoopEnd => break
+      Token::Debug => ()
       _ => nodes.push(AstNode::Command(token))
     }
     count.val += 1

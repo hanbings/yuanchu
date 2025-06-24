@@ -50,6 +50,7 @@ pub fn compile_loop(node : AstNode, buffer : Ref[Array[Byte]]) -> Unit {
     AstNode::Command(Token::Input) => buffer.val.push_iter(syscall_read())
     AstNode::Command(Token::LoopStart) => println("LoopStart")
     AstNode::Command(Token::LoopEnd) => println("LoopEnd")
+    AstNode::Command(Token::Debug) => ()
     AstNode::Loop(loop_nodes) => {
       let loop_start = buffer.val.length()
 

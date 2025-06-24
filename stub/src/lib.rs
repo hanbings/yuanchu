@@ -26,11 +26,13 @@ pub extern "C" fn wait_inputs() -> u32 {
 
     if let Ok(Some(inputs)) = stdin.read_line() {
         match inputs.as_str() {
-            "step" => return 1,
-            "continue" => return 2,
-            "exit" => return 3,
-            "reset" => return 4,
-            "help" => return 5,
+            "c" | "continue" => return 1,
+            "q" | "exit" => return 2,
+            "d" | "dump" => return 3,
+            "l" | "load" => return 4,
+            "r" | "reset" => return 5,
+            "h" | "help" => return 6,
+            "" | "step" => return 7,
             _ => {}
         }   
     }

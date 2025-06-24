@@ -36,13 +36,24 @@ $ cd ..
 $ moon build --target native
 
 # 然后运行它！
-$ LD_LIBRARY_PATH=stub/target/debug target/native/release/build/main/main.exe
+$ LD_LIBRARY_PATH=stub/target/debug target/native/release/build/main/main.exe --file examples/helloworld.bf
 Hello World!
 
 # 以 JIT 方式运行
-$ LD_LIBRARY_PATH=stub/target/debug target/native/release/build/main/main.exe --jit
+$ LD_LIBRARY_PATH=stub/target/debug target/native/release/build/main/main.exe --jit --file examples/helloworld.bf
+$ LD_LIBRARY_PATH=stub/target/debug target/native/release/build/main/main.exe --jit --file examples/mandelbrot.bf
 ```
 
 ## 实现
 
 [用 MoonBit 写了个带有 JIT 的 Brainfuck 解释器](./moonbit-brainfuck.md)
+
+- [x] `>` `<`：指针移动，`+` `-`：内存单元增减，`[` `]`：循环匹配（支持嵌套），`.` `,`：ASCII字符输入输出
+- [x] 调试功能：`!` 语法断点
+- [x] 调试功能：单步调试
+- [x] 调试功能：内存数组状态
+- [ ] 调试功能：导出/导入内存状态
+- [x] 实现JIT编译优化
+- [x] 支持 `#` 语法注释
+- [ ] 编写 「利用 MoonBit 写 brainfuck 解释器」 的教学文档
+- [ ] 交互式 REPL 环境

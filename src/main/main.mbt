@@ -23,12 +23,14 @@ fn main {
 
   // execute the corresponding parameters.
   if help {
-    println("Usage: mbt [options] [file]")
-    println("Options:")
-    println("  --help       Show this help message")
-    println("  --step       Run the program step by step")
-    println("  --jit        Use JIT compilation")
-    println("  --file FILE  Specify the file to run")
+    let help =
+      #| Usage: mbt [options] [file]
+      #| Options:
+      #|   --help       Show this help message
+      #|   --step       Run the program step by step
+      #|   --jit        Use JIT compilation
+      #|   --file FILE  Specify the file to run
+    println(help)
     return
   }
 
@@ -54,13 +56,7 @@ fn main {
 
   // check if the code is valid and run it step by step.
   if step {
-    for {
-      let res = @lib.wait_inputs()
-      println(res)
-      if res == 3 {
-        break
-      }
-    }
+    @lib.debug_run(token)
     return
   }
 
