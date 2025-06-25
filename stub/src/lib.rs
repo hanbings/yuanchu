@@ -28,11 +28,20 @@ pub extern "C" fn wait_inputs() -> u32 {
         match inputs.as_str() {
             "c" | "continue" => return 1,
             "q" | "exit" => return 2,
-            "d" | "dump" => return 3,
-            "l" | "load" => return 4,
-            "r" | "reset" => return 5,
-            "h" | "help" => return 6,
-            "" | "step" => return 7,
+            "r" | "reset" => return 3,
+            "h" | "help" => return 4,
+            "" | "step" => return 5,
+            ">" => return 6,
+            "<" => return 7,
+            "+" => return 8,
+            "-" => return 9,
+            "." => return 10,
+            "," => return 11,
+            "[" => return 12,
+            "]" => return 13,
+            "!" => return 14,
+            "d" | "dump" => return 15,
+            "l" | "load" => return 16,
             _ => {}
         }   
     }
@@ -81,5 +90,23 @@ extern "C" fn run_asm(code: *const u8, size: u64) -> u64 {
         munmap(addr, size);
 
         result
+    }
+}
+
+use std::alloc::{alloc, Layout};
+use std::ptr;
+
+#[unsafe(no_mangle)]
+pub extern "C" fn alloc_hello() -> *mut u8 {
+    let msg = b"hello";
+    let len = msg.len();
+    unsafe {
+        let layout = Layout::array::<u8>(len).unwrap();
+        let ptr = alloc(layout);
+        if ptr.is_null() {
+            return ptr::null_mut();
+        }
+        ptr.copy_from_nonoverlapping(msg.as_ptr(), len);
+        ptr
     }
 }

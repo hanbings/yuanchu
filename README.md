@@ -51,9 +51,9 @@ $ LD_LIBRARY_PATH=stub/target/debug target/native/release/build/main/main.exe --
 - [x] `>` `<`：指针移动，`+` `-`：内存单元增减，`[` `]`：循环匹配（支持嵌套），`.` `,`：ASCII字符输入输出
 - [x] 调试功能：`!` 语法断点
 - [x] 调试功能：单步调试
-- [x] 调试功能：内存数组状态
-- [ ] 调试功能：导出/导入内存状态
+- [x] 调试功能：内存状态
 - [x] 实现JIT编译优化
 - [x] 支持 `#` 语法注释
 - [ ] 编写 「利用 MoonBit 写 brainfuck 解释器」 的教学文档
-- [ ] 交互式 REPL 环境
+- [x] 交互式 REPL 环境
+- [ ] 导出/导入内存镜像

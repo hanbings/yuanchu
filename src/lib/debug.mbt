@@ -1,5 +1,5 @@
 ///|
-fn new_state(tokens : Array[Token]) -> DebugState {
+fn new_debug_state(tokens : Array[Token]) -> DebugState {
   let state = DebugState::{
     tokens,
     tape: Array::make(30000, 0),
@@ -39,13 +39,11 @@ fn new_state(tokens : Array[Token]) -> DebugState {
 }
 
 ///|
-fn print_help() -> Unit {
+fn print_debug_help() -> Unit {
   let help =
     #| The following commands are supported:
     #| "c" or "continue" - Continue to execute subsequent instructions.
     #| "q" or "exit" - Exit the current interpreter.
-    #| "d" or "dump" - Export a memory snapshot from the current state.
-    #| "l" or "load" - Load a memory snapshot to the current state.
     #| "r" or "reset" - Reset all state of the interpreter.
     #| "h" or "help" - Print help.
     #| "step" or Enter key - Execute the next Brainfuck instruction.
@@ -57,20 +55,18 @@ fn print_help() -> Unit {
 
 ///|
 pub fn debug_run(tokens : Array[Token]) -> Unit {
-  let mut state = new_state(tokens)
+  let mut state = new_debug_state(tokens)
   println("✨ YuanChu's debugger!")
-  print_help()
+  print_debug_help()
 
   // request input
   for {
     let res = wait_inputs()
     // 1: continue
     // 2: exit
-    // 3: dump
-    // 4: load
-    // 5: reset
-    // 6: help
-    // 7: Enter key
+    // 3: reset
+    // 4: help
+    // 5: Enter key
     match res {
       1 =>
         while state.pc < state.tokens.length() {
@@ -85,17 +81,15 @@ pub fn debug_run(tokens : Array[Token]) -> Unit {
           }
         }
       2 => break
-      3 => println("dump")
-      4 => println("load")
-      5 => state = new_state(tokens)
-      6 => print_help()
-      7 => {
+      3 => state = new_debug_state(tokens)
+      4 => print_debug_help()
+      5 => {
         let result = debug_execute(state)
         if not(result) {
           println(state.tape.filter(fn(tape) { tape != 0 }))
         }
       }
-      _ => println("Unknown")
+      _ => println("Unknown debugger command.")
     }
   }
 }

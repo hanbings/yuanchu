@@ -4,6 +4,28 @@ fn main {
 
   // check arguments
   let help = args.contains("--help")
+  // execute the corresponding parameters.
+  if help {
+    let help =
+      #| Usage: mbt [options] [file]
+      #| Options:
+      #|   --help       Show this help message
+      #|   --step       Run the program step by step
+      #|   --jit        Use JIT compilation
+      #|   --file FILE  Specify the file to run
+      #|   --repl       Into REPL mode
+    println(help)
+    return
+  }
+
+  // Into REPL mode
+  let repl = args.contains("--repl")
+  if repl {
+    @lib.repl_run()
+    return
+  }
+
+  // Check file path
   let file = {
     let mut file = None
     args.eachi(fn(i, arg) {
@@ -20,19 +42,6 @@ fn main {
   }
   let step = args.contains("--step")
   let jit = args.contains("--jit")
-
-  // execute the corresponding parameters.
-  if help {
-    let help =
-      #| Usage: mbt [options] [file]
-      #| Options:
-      #|   --help       Show this help message
-      #|   --step       Run the program step by step
-      #|   --jit        Use JIT compilation
-      #|   --file FILE  Specify the file to run
-    println(help)
-    return
-  }
 
   // verify the source code file path.
   let file_path = match file {

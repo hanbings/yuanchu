@@ -25,6 +25,16 @@ pub struct State {
 }
 
 ///|
+pub struct ReplState {
+  tokens : Array[Token]
+  tape : Array[UInt]
+  output_buffer : @buffer.Buffer
+  mut pc : Int
+  mut ptr : Int
+  stack : Array[Int]
+}
+
+///|
 pub struct DebugState {
   tokens : Array[Token]
   tape : Array[UInt]
