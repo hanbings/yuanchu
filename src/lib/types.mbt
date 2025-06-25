@@ -27,7 +27,7 @@ pub struct State {
 ///|
 pub struct ReplState {
   tokens : Array[Token]
-  tape : Array[UInt]
+  mut tape : Array[UInt]
   output_buffer : @buffer.Buffer
   mut pc : Int
   mut ptr : Int

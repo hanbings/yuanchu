@@ -30,8 +30,12 @@ fn print_repl_help() -> Unit {
   println(help)
 }
 
-fn print_memory(state: ReplState) -> Unit {
-  println(state.tape[:(state.tape.length() - state.tape.rev().search_by(fn(x) { x != 0 }).or_else(fn() { 0 }))])
+///|
+fn print_memory(state : ReplState) -> Unit {
+  println(
+    state.tape[:state.tape.length() -
+    state.tape.rev().search_by(fn(x) { x != 0 }).or_else(fn() { 0 })],
+  )
 }
 
 ///|
@@ -81,8 +85,8 @@ pub fn repl_run() -> Unit {
       12 => state.tokens.push(Token::LoopStart)
       13 => state.tokens.push(Token::LoopEnd)
       14 => state.tokens.push(Token::Debug)
-      15 => ()
-      16 => ()
+      15 => dump(state.tape)
+      16 => state.tape = load()
       _ => println("Unknown REPL mode command.")
     }
   }

@@ -3,6 +3,20 @@ use std::io::stdin;
 use termion::{event::Key, input::TermRead};
 
 #[unsafe(no_mangle)]
+pub extern "C" fn byte_to_uint(l: u32, r: u32) -> u32 {
+    let bytes: [u8; 2] = [l as u8, r as u8];
+    
+    let trimmed = bytes.split(|&b| b == 0).next().unwrap_or(&[]);
+    match std::str::from_utf8(trimmed)
+        .ok()
+        .and_then(|s| s.parse::<u32>().ok()) 
+    {
+        Some(n) => n,
+        None => 0,
+    }
+}
+
+#[unsafe(no_mangle)]
 pub extern "C" fn wait_input() -> u32 {
     let stdin = stdin();
     let stdin = stdin.lock();

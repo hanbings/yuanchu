@@ -56,4 +56,4 @@ $ LD_LIBRARY_PATH=stub/target/debug target/native/release/build/main/main.exe --
 - [x] 支持 `#` 语法注释
 - [ ] 编写 「利用 MoonBit 写 brainfuck 解释器」 的教学文档
 - [x] 交互式 REPL 环境
-- [ ] 导出/导入内存镜像
+- [x] 导出/导入内存镜像
